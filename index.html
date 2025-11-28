@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הפיצה האיטלקית בעבודת יד</title>
+<style>
+body { margin: 0; font-family: 'Poppins', sans-serif; background: #fff7ef; color: #333; overflow-x: hidden; }
+
+/* Header */
+header {
+    background-image: url('./images/back.jpeg');
+    height: 47vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+header h1 {
+    font-size: 3.5rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    animation: fadeDown 1.5s ease;
+}
+
+/* Sections */
+/* section { padding: 70px 20px; max-width: 1100px; margin: auto; } */
+h2 { text-align: center; font-size: 2.4rem; margin-bottom: 20px; color: #32b329; }
+h4{margin-bottom: 20px; color: white;}
+/* Contact Links */
+.contact-links a { display: inline-block; margin: 10px; padding: 12px 20px; /*background: #32b329*/; color: white; border-radius: 6px; text-decoration: none; transition: 0.3s; }
+/* .contact-links a:hover { background: #32b329; transform: scale(1.05); } */
+
+.share-links{width: 300px;}
+.share-links a { display: inline-block; margin: 10px; padding: 12px 20px; background: #32b329; color: white; }
+ .share-links a:hover { background: #32b329; transform: scale(1.05); } 
+
+/* Contact form */
+form {width: 300px; text-align: center;}
+form input, form textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; }
+form button { padding: 12px 20px; background: #32b329; color: white; border: none; border-radius: 6px; cursor: pointer; transition: 0.3s; }
+form button:hover { background: #32b329; transform: scale(1.05); }
+
+/* Animations */
+.animate { opacity: 0; transform: translateY(40px); transition: 0.8s ease; }
+.animate.visible { opacity: 1; transform: translateY(0); }
+@keyframes fadeDown { from { opacity:0; transform: translateY(-40px);} to { opacity:1; transform:translateY(0);} }
+
+/* Logo */
+.logo{
+    width: 20%; margin: 0 auto;
+    border-radius: 50%; border-style: groove;
+    background: url('./images/logo.jpeg') no-repeat center/cover;
+    height: 275px;
+    position: absolute; top: 265px; right: 40%;
+}
+
+/* Responsive images in slider */
+ /* 2 images on tablet */
+@media (max-width: 1024px) { .slides img { width: calc(50% - 10px); } }
+/* 1 image on mobile */
+@media (max-width: 600px) { .slides img { width: calc(100% - 10px); } } 
+
+
+/*Gallery */
+
+    /* Carousel Container - Fully Responsive */
+    .carousel-wrapper {
+        direction: ltr;;
+      position: relative;
+      width: 20%;
+      max-width: 1000px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    }
+
+    .carousel {
+      display: flex;
+      width: 100%;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      touch-action: pan-y; /* Allows vertical scroll but enables swipe */
+    }
+
+    .carousel img {
+      width: 100%;
+      height: 70vh;
+      max-height: 300px;
+      object-fit: scale-down;
+      flex-shrink: 0;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* Navigation Arrows */
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 10;
+      transition: 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    .nav:hover { background: rgba(0,0,0,0.8); }
+    .prev { left: 15px; }
+    .next { right: 15px; }
+
+    /* Dots Indicator */
+    .dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .dot.active { background: white; transform: scale(1.3); }
+
+    /* Lightbox (Full-screen popup) */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 40vw;
+      height: 60vh;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+        top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .lightbox.active { display: flex; }
+
+    .lightbox img {
+      max-width: 60%;
+      max-height: 55vh;
+      border-radius: 12px;
+      box-shadow: 0 0 50px rgba(0,0,0,0.8);
+      animation: zoomIn 0.4s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 50px;
+      color: white;
+      cursor: pointer;
+      font-weight: 300;
+      text-shadow: 0 0 10px black;
+      z-index: 1001;
+    }
+
+    .icon_social{    
+        filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);
+        margin-left: 15px;
+    }
+
+    /* Hide arrows on very small screens */
+    @media (max-width: 480px) {
+      .nav { width: 40px; height: 40px; font-size: 20px; }
+      .close { top: 20px; right: 20px; font-size: 40px; }
+    }
+
+    .center {
+  margin: auto;
+  width: 50%;
+  /* border: 3px solid green; */
+  padding: 10px;
+}
+    .about_us{
+        text-align: center;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 20px;
+        font-style: italic;
+    }
+
+    footer{
+        margin-top: 100px;;
+      display: flex !important;
+        justify-content: center;
+          /* align-items: center; */
+          min-height: 40vh;
+          width: 100%;
+          background-image: linear-gradient(180deg, #32b329ed, white);
+          /* background-image: linear-gradient(to bottom, #32b329ed, white); */
+          border-radius: 10px;
+    }
+
+    /* text effects */
+
+    .masked-text {
+    font-size: 8rem;
+    font-weight: bold;
+    color: transparent;
+    background-image: url('https://images.unsplash.com/photo-1732535725600-f805d8b33c9c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); 
+    background-size: 200%; /* Enlarged for smooth animation */
+    background-position: 0 50%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate-background 5s infinite alternate linear;
+}
+
+@keyframes animate-background {
+    0% {
+        background-position: 0 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.neon-text {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 0 5px #32b329ed, 0 0 10px #32b329ed, 0 0 20px #32b329ed, 0 0 40px #32b329ed, 0 0 80px #32b329ed;
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px #32b329ed, 0 0 10px #32b329ed, 0 0 20px #32b329ed, 0 0 40px #32b329ed, 0 0 80px #32b329ed;
+    }
+    100% {
+        text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 40px #00d4ff, 0 0 80px #00d4ff, 0 0 160px #00d4ff;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<header>
+    <h1 class="masked-text"> הפיצה איטלקית בעבודת יד</h1>
+</header>
+<div class="logo"></div>
+
+<section id="contact" class="animate" style="text-align: center;">
+    <h2 style="margin-top: 145px;">צרו קשר איתנו במגוון דרכים</h2>
+    <div class="contact-links">
+        <!-- <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="https://wa.me/123456789">WhatsApp</a>
+        <a href="tel:+123456789">Call Us</a>
+    </div>
+    
+    <div> -->
+        <i class="icon_instegram icon_social">
+            <!-- <a href="https://www.instagram.com/reel/DGQixUCC4GE/?igsh=ZjlyaTlhNDFiaTYy"> -->
+                <a href="https://www.instagram.com/p/BuZPWtFF6V_/?igsh=MXdhMmFkcG5tbG1xYw==" target="_blank">               
+    <img src="./images/Instagram-Logo--Streamline-Micro.png" 
+                alt="אינסטגרם"
+                title="אינסטגרם"
+                onmouseover="this.src='./images/Instagram-Logo--Streamline-Micro-hover.png'"
+                onmouseout="this.src='./images/Instagram-Logo--Streamline-Micro.png'"
+            /></a>
+        </i>
+                <i class="icon_call icon_social">  
+                    <a href="tel:0522880980">
+                        <img src="./images/Phone.svg" 
+                        alt="התקשר אלינו"
+                        title="התקשר אלינו"
+                        onmouseover="this.src='./images/Phone-hover.svg'"
+                        onmouseout="this.src='./images/Phone.svg'"
+            /></a>
+        </i>
+                <i class="icon_whatsapp icon_social">
+                    <a href="https://wa.me/972522880980" target="_blank">
+                        <img src="./images/Whatsapp.png" 
+                alt="ווטסאפ"
+                title="ווטסאפ"
+                        onmouseover="this.src='./images/WhatsApp-hover.png'"
+                        onmouseout="this.src='./images/WhatsApp.png'"
+            /></a>                    
+        </i>
+                <i class="icon_facebook icon_social">
+
+                    <a href="https://www.facebook.com/profile.php?id=100002375052806" target="_blank">
+                        <img src="./images/Facebook.png" 
+                alt="פייסבוק"
+                title="פייסבוק"
+                        onmouseover="this.src='./images/Facebook-hover.png'"
+                        onmouseout="this.src='./images/Facebook.png'"
+            /></a>                    
+        </i>
+
+         <i class="icon_tiktok icon_social">
+
+                    <a href="https://vt.tiktok.com/ZSfHxEvXu/" target="_blank">
+                        <img src="./images/tiktok.svg" height="50" 
+                alt="טיקטוק"
+                title="טיקטוק"
+                        onmouseover="this.src='./images/tiktok-hover.svg'"
+                        onmouseout="this.src='./images/tiktok.svg'"
+            /></a>                    
+        </i>
+    </div>
+</section>
+
+<div class="about_us center">
+    <h2>מי אנחנו</h2>
+    <p>פיצריית בוטיק איטלקית בעבודת יד.</p>
+    <p> הפיצה – איטלקית בעבודת יד בשכונת מגורים בפרדס חנה מול שדות החיטה, באווירה כפרית חמימה וקסומה תמצאו את הפיצה. הבצק שלנו הוא עיקר הפיצה, הוא מותפח התפחה ארוכה של 72 שעות ונאפה בתנור אבן לוהט.</p>
+        
+        <p>זמן הלישה המדויק ואחוזי הידרציה גבוהות מביאים לתוצאה של רשמת גלוטן מפותחת ובצק שכולו אוויר. אנו משתמשים בקמח קאפוטו 00 ומגיע אלינו היישר ושמים דגש על חומרי הגלם הטריים והמשובחים ביותר. ירקות טריים שנבחרו בקפידה.</p>
+    <p>רוטב איטלקי מיוחד שאנחנו מכינים במקום וגבינה משובחת ביותר היישר ממחלבות יעקבס. בהפיצה כל פיצה היא יצירת אמנות טעימה שמכינים באהבה ובמקצועיות. אנו מאמינים כי שילוב של אוכל איכותי וטרי, ניקיון וסדר, נדיבות ועשייה מאהבה תגרום לכם לחזור שוב ושוב.</p>
+</div>
+
+<section id="gallery" class="animate">
+    <h2 class="neon-text">הפיצות שלנו</h2>
+
+    <div class="carousel-wrapper" id="carouselWrapper">
+  <div class="carousel" id="carousel"></div>
+
+  <button class="nav prev" onclick="changeSlide(-1)">‹</button>
+  <button class="nav next" onclick="changeSlide(1)">›</button>
+
+  <div class="dots" id="dots"></div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="close" onclick="closeLightbox()">×</span>
+  <img id="lightboxImg" src="" alt="Enlarged view"/>
+</div>
+</section>
+
+<footer class="">
+    <section id="share" class="animate" style="text-align: center;">
+    <h4>שתף אותנו ברשת</h4>
+    <div class="share-links">
+        <a href="https://www.facebook.com/sharer.php?u=https://ig.growerai.biz/%d7%9b%d7%a8%d7%98%d7%99%d7%a1-%d7%91%d7%99%d7%a7%d7%95%d7%a8-%d7%93%d7%99%d7%92%d7%99%d7%98%d7%9c%d7%99/%d7%94%d7%a4%d7%99%d7%a6%d7%94-%d7%90%d7%99%d7%98%d7%9c%d7%a7%d7%99%d7%aa-%d7%91%d7%a2%d7%91%d7%95%d7%93%d7%aa-%d7%99%d7%93/" data-label="Facebook" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px'); return false;" target="_blank" class="icon button circle is-outline tooltip facebook" title="שתף בפייסבוק" aria-label="שתף בפייסבוק" rel="noopener nofollow" ><i class="icon-facebook" >facebook</i></a>
+
+        <a href="whatsapp://send?text=%D7%94%D7%A4%D7%99%D7%A6%D7%94%20%26%238211%3B%20%D7%90%D7%99%D7%98%D7%9C%D7%A7%D7%99%D7%AA%20%D7%91%D7%A2%D7%91%D7%95%D7%93%D7%AA%20%D7%99%D7%93 - https://ig.growerai.biz/%d7%9b%d7%a8%d7%98%d7%99%d7%a1-%d7%91%d7%99%d7%a7%d7%95%d7%a8-%d7%93%d7%99%d7%92%d7%99%d7%98%d7%9c%d7%99/%d7%94%d7%a4%d7%99%d7%a6%d7%94-%d7%90%d7%99%d7%98%d7%9c%d7%a7%d7%99%d7%aa-%d7%91%d7%a2%d7%91%d7%95%d7%93%d7%aa-%d7%99%d7%93/" data-action="share/whatsapp/share" class="icon button circle is-outline tooltip whatsapp show-for-medium" title="Share on WhatsApp" aria-label="Share on WhatsApp" ><i class="icon-whatsapp" >whatsapp</i></a>
+        <!-- <a href="#">העתק קישור</a>         -->
+    </div>    
+</section>
+<!-- 
+<div class="social-icons share-icons share-row relative full-width text-center icon-style-outline" >
+    <a href="whatsapp://send?text=%D7%94%D7%A4%D7%99%D7%A6%D7%94%20%26%238211%3B%20%D7%90%D7%99%D7%98%D7%9C%D7%A7%D7%99%D7%AA%20%D7%91%D7%A2%D7%91%D7%95%D7%93%D7%AA%20%D7%99%D7%93 - https://ig.growerai.biz/%d7%9b%d7%a8%d7%98%d7%99%d7%a1-%d7%91%d7%99%d7%a7%d7%95%d7%a8-%d7%93%d7%99%d7%92%d7%99%d7%98%d7%9c%d7%99/%d7%94%d7%a4%d7%99%d7%a6%d7%94-%d7%90%d7%99%d7%98%d7%9c%d7%a7%d7%99%d7%aa-%d7%91%d7%a2%d7%91%d7%95%d7%93%d7%aa-%d7%99%d7%93/" data-action="share/whatsapp/share" class="icon button circle is-outline tooltip whatsapp show-for-medium" title="Share on WhatsApp" aria-label="Share on WhatsApp" ><i class="icon-whatsapp" >whatsapp</i></a>
+
+    <a href="https://www.facebook.com/sharer.php?u=https://ig.growerai.biz/%d7%9b%d7%a8%d7%98%d7%99%d7%a1-%d7%91%d7%99%d7%a7%d7%95%d7%a8-%d7%93%d7%99%d7%92%d7%99%d7%98%d7%9c%d7%99/%d7%94%d7%a4%d7%99%d7%a6%d7%94-%d7%90%d7%99%d7%98%d7%9c%d7%a7%d7%99%d7%aa-%d7%91%d7%a2%d7%91%d7%95%d7%93%d7%aa-%d7%99%d7%93/" data-label="Facebook" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px'); return false;" target="_blank" class="icon button circle is-outline tooltip facebook" title="שתף בפייסבוק" aria-label="שתף בפייסבוק" rel="noopener nofollow" ><i class="icon-facebook" >facebook</i></a>
+    
+    <a href="https://twitter.com/share?url=https://ig.growerai.biz/%d7%9b%d7%a8%d7%98%d7%99%d7%a1-%d7%91%d7%99%d7%a7%d7%95%d7%a8-%d7%93%d7%99%d7%92%d7%99%d7%98%d7%9c%d7%99/%d7%94%d7%a4%d7%99%d7%a6%d7%94-%d7%90%d7%99%d7%98%d7%9c%d7%a7%d7%99%d7%aa-%d7%91%d7%a2%d7%91%d7%95%d7%93%d7%aa-%d7%99%d7%93/" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px'); return false;" target="_blank" class="icon button circle is-outline tooltip twitter" title="שתף בטוויטר" aria-label="שתף בטוויטר" rel="noopener nofollow" ><i class="icon-twitter" ></i></a><a href="mailto:?subject=%D7%94%D7%A4%D7%99%D7%A6%D7%94%20%26%238211%3B%20%D7%90%D7%99%D7%98%D7%9C%D7%A7%D7%99%D7%AA%20%D7%91%D7%A2%D7%91%D7%95%D7%93%D7%AA%20%D7%99%D7%93&body=Check%20this%20out%3A%20https%3A%2F%2Fig.growerai.biz%2F%25d7%259b%25d7%25a8%25d7%2598%25d7%2599%25d7%25a1-%25d7%2591%25d7%2599%25d7%25a7%25d7%2595%25d7%25a8-%25d7%2593%25d7%2599%25d7%2592%25d7%2599%25d7%2598%25d7%259c%25d7%2599%2F%25d7%2594%25d7%25a4%25d7%2599%25d7%25a6%25d7%2594-%25d7%2590%25d7%2599%25d7%2598%25d7%259c%25d7%25a7%25d7%2599%25d7%25aa-%25d7%2591%25d7%25a2%25d7%2591%25d7%2595%25d7%2593%25d7%25aa-%25d7%2599%25d7%2593%2F" class="icon button circle is-outline tooltip email" title="שלח דואר אלקטרוני לחבר" aria-label="שלח דואר אלקטרוני לחבר" rel="nofollow" ><i class="icon-envelop" >email</i></a>
+    
+    <a href="https://pinterest.com/pin/create/button?url=https://ig.growerai.biz/%d7%9b%d7%a8%d7%98%d7%99%d7%a1-%d7%91%d7%99%d7%a7%d7%95%d7%a8-%d7%93%d7%99%d7%92%d7%99%d7%98%d7%9c%d7%99/%d7%94%d7%a4%d7%99%d7%a6%d7%94-%d7%90%d7%99%d7%98%d7%9c%d7%a7%d7%99%d7%aa-%d7%91%d7%a2%d7%91%d7%95%d7%93%d7%aa-%d7%99%d7%93/&media=https://ig.growerai.biz/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-02-at-12.25.52.jpeg&description=%D7%94%D7%A4%D7%99%D7%A6%D7%94%20%26%238211%3B%20%D7%90%D7%99%D7%98%D7%9C%D7%A7%D7%99%D7%AA%20%D7%91%D7%A2%D7%91%D7%95%D7%93%D7%AA%20%D7%99%D7%93" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px'); return false;" target="_blank" class="icon button circle is-outline tooltip pinterest" title="שתף בפינטרסט" aria-label="שתף בפינטרסט" rel="noopener nofollow" ><i class="icon-pinterest" ></i></a>
+    
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://ig.growerai.biz/%d7%9b%d7%a8%d7%98%d7%99%d7%a1-%d7%91%d7%99%d7%a7%d7%95%d7%a8-%d7%93%d7%99%d7%92%d7%99%d7%98%d7%9c%d7%99/%d7%94%d7%a4%d7%99%d7%a6%d7%94-%d7%90%d7%99%d7%98%d7%9c%d7%a7%d7%99%d7%aa-%d7%91%d7%a2%d7%91%d7%95%d7%93%d7%aa-%d7%99%d7%93/&title=%D7%94%D7%A4%D7%99%D7%A6%D7%94%20%26%238211%3B%20%D7%90%D7%99%D7%98%D7%9C%D7%A7%D7%99%D7%AA%20%D7%91%D7%A2%D7%91%D7%95%D7%93%D7%AA%20%D7%99%D7%93" onclick="window.open(this.href,this.title,'width=500,height=500,top=300px,left=300px'); return false;" target="_blank" class="icon button circle is-outline tooltip linkedin" title="Share on LinkedIn" aria-label="Share on LinkedIn" rel="noopener nofollow" ><i class="icon-linkedin" ></i></a>
+</div> -->
+
+<section id="contactForm" class="animate">
+    <h4>השאר לנו הודעה</h4>
+    <form>
+        <input type="text" placeholder="השם שלך" required />
+        <input type="email" placeholder="אימייל" required />
+        <input type="tel" placeholder="טלפון" required />
+        <textarea placeholder="הודעה" rows="5" required></textarea>
+        <button type="submit">שלח</button>
+    </form>
+</section>
+</footer>
+
+<script>
+  // Your images - use same URL for thumb & full, or separate large versions
+  const images = [
+    "./images/1.jpeg",
+    "./images/2.jpeg",
+    "./images/3.jpeg",
+    "./images/4.jpeg",
+    "./images/5.jpeg",
+    "./images/6.jpeg",
+    "./images/7.jpeg",
+    "./images/8.jpeg",
+    "./images/1.jpeg",
+    "./images/10.jpeg",
+    "./images/11 .jpeg",
+    "./images/12.jpeg",
+    "./images/13.jpeg",
+    "./images/14.jpeg",
+    "./images/15.jpeg",
+    "./images/16.jpeg",
+    "./images/17.jpeg",
+    "./images/18.jpeg",
+    "./images/19.jpeg",
+    "./images/20.jpeg",
+    "./images/21.jpeg",
+    "./images/22.jpeg",
+    "./images/23.jpeg",
+    "./images/24.jpeg"
+
+    // "https://picsum.photos/1200/800?random=1",
+    // "https://picsum.photos/1200/800?random=2",
+    // "https://picsum.photos/1200/800?random=3",
+    // "https://picsum.photos/1200/800?random=4",
+    // "https://picsum.photos/1200/800?random=5",
+    // "https://picsum.photos/1200/800?random=6"
+  ];
+
+  // If you have separate large images:
+  // const images = [
+  //   { thumb: "small1.jpg", full: "large1.jpg" },
+  //   ...
+  // ];
+
+  const carousel = document.getElementById('carousel');
+  const dotsContainer = document.getElementById('dots');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const wrapper = document.getElementById('carouselWrapper');
+
+  let currentIndex = 0;
+  let autoplayInterval;
+  let touchStartX = 0;
+  let isDown = false;
+
+  // Build slides
+  images.forEach((item, i) => {
+    const src = typeof item === 'string' ? item : item.thumb;
+    const fullSrc = typeof item === 'string' ? item : (item.full || item.thumb);
+
+    debugger;
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `Image ${i+1}`;
+    img.loading = "lazy";
+    img.onclick = () => openLightbox(fullSrc);
+    carousel.appendChild(img);
+
+    // Create dot
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.dot');
+
+  function updateCarousel() {
+    carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+  }
+
+  function changeSlide(direction) {
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = images.length - 1;
+    if (currentIndex >= images.length) currentIndex = 0;
+    updateCarousel();
+  }
+
+  function goToSlide(index) {
+    currentIndex = index;
+    updateCarousel();
+  }
+
+  function openLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.classList.add('active');
+    pauseAutoplay();
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+  }
+
+  // Close when clicking outside image
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target.classList.contains('close')) {
+      closeLightbox();
+    }
+  });
+
+  // Autoplay
+  function startAutoplay() {
+    autoplayInterval = setInterval(() => changeSlide(1), 5000);
+  }
+
+  function pauseAutoplay() {
+    clearInterval(autoplayInterval);
+  }
+
+  // Pause on hover/touch
+  wrapper.addEventListener('mouseenter', pauseAutoplay);
+  wrapper.addEventListener('mouseleave', startAutoplay);
+  wrapper.addEventListener('touchstart', pauseAutoplay);
+
+  // Touch swipe support
+  wrapper.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    isDown = true;
+  }, { passive: true });
+
+  wrapper.addEventListener('touchmove', e => {
+    if (!isDown) return;
+    const x = e.touches[0].clientX;
+    const diff = touchStartX - x;
+
+    // Optional: add drag effect
+    // carousel.style.transform = `translateX(calc(-${currentIndex * 100}% - ${diff}px))`;
+  }, { passive: true });
+
+  wrapper.addEventListener('touchend', e => {
+    if (!isDown) return;
+    isDown = false;
+    const x = e.changedTouches[0].clientX;
+    const diff = touchStartX - x;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) changeSlide(1);
+      else changeSlide(-1);
+    }
+    updateCarousel();
+  });
+
+  // Keyboard support
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  // Start autoplay
+  updateCarousel();
+  startAutoplay();
+</script>
+<script>
+// // Responsive Slider Setup
+// const slidesContainer = document.querySelector('.slides');
+// let slides = Array.from(slidesContainer.children);
+// let visibleCount = 3;
+// let currentIndex = 0;
+
+// // Update visibleCount based on window width
+// function updateVisibleCount() {
+//     if (window.innerWidth <= 600) visibleCount = 1;
+//     else if (window.innerWidth <= 1024) visibleCount = 2;
+//     else visibleCount = 3;
+// }
+
+// // Clone slides for circular effect
+// function setupSlider() {
+//     slidesContainer.innerHTML = '';
+//     const slidesArray = slides.concat(slides.slice(0, visibleCount)); // append clones
+//     slidesArray.forEach(slide => slidesContainer.appendChild(slide.cloneNode(true)));
+//     currentIndex = 0;
+//     updateSlide();
+// }
+
+// // Update slider position
+// function updateSlide(animate = true) {
+//     const slideWidth = slidesContainer.children[0].offsetWidth + 10; // include margin
+//     slidesContainer.style.transition = animate ? 'transform 0.5s ease' : 'none';
+//     slidesContainer.style.transform = `translateX(${-currentIndex * slideWidth}px)`;
+// }
+
+// // Next / Prev buttons
+// function nextSlide() {
+//     currentIndex++;
+//     if (currentIndex > slides.length - 1) currentIndex = 0;
+//     updateSlide();
+// }
+// function prevSlide() {
+//     currentIndex--;
+//     if (currentIndex < 0) currentIndex = slides.length - 1;
+//     updateSlide();
+// }
+// document.getElementById('nextBtn').addEventListener('click', nextSlide);
+// document.getElementById('prevBtn').addEventListener('click', prevSlide);
+
+// // Touch Swipe Support
+// let startX = 0;
+// slidesContainer.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+// slidesContainer.addEventListener('touchend', e => {
+//     let endX = e.changedTouches[0].clientX;
+//     if (startX - endX > 50) nextSlide(); // swipe left
+//     if (endX - startX > 50) prevSlide(); // swipe right
+// });
+
+// // Lightbox
+// const lightbox = document.getElementById('lightbox');
+// const lightboxImg = document.getElementById('lightboxImg');
+// document.querySelectorAll('.slides img').forEach(img => {
+//     img.addEventListener('click', () => {
+//         lightboxImg.src = img.src;
+//         lightbox.style.display = 'flex';
+//     });
+// });
+// function closeLightbox() { lightbox.style.display = 'none'; }
+
+// // Scroll animations
+const animated = document.querySelectorAll('.animate');
+function checkAnimations() {
+    const trigger = window.innerHeight * 0.85;
+    animated.forEach(el => {
+        if (el.getBoundingClientRect().top < trigger) el.classList.add('visible');
+    });
+}
+
+// Initialize
+window.addEventListener('load', () => {
+    // updateVisibleCount();
+    // setupSlider();
+    checkAnimations();
+});
+// window.addEventListener('resize', () => {
+//     updateVisibleCount();
+//     // setupSlider();
+// });
+window.addEventListener('scroll', checkAnimations);
+</script>
+
+</body>
+</html>

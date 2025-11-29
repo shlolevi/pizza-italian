@@ -662,7 +662,7 @@ function SendEmail(){
   const serviceId = "service_4pa33yd";
   const templateId = "template_lsasq9i";
 
-  emailjs.SendEmail(serviceId,templateId,params).
+  emailjs.send(serviceId,templateId,params).
   then(res => {
     document.getElementById("name").value = "";
     document.getElementById("email").value = "";

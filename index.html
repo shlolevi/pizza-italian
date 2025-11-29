@@ -70,9 +70,6 @@ form button:hover { background: #32b329; transform: scale(1.05); }
 
 /* Responsive images in slider */
  /* 2 images on tablet */
-@media (max-width: 1024px) { .slides img { width: calc(50% - 10px); } }
-/* 1 image on mobile */
-@media (max-width: 600px) { .slides img { width: calc(100% - 10px); } } 
 
 
 /*Gallery */
@@ -197,11 +194,20 @@ form button:hover { background: #32b329; transform: scale(1.05); }
         margin-left: 15px;
     }
 
+    @media (max-width: 800px) { .carousel-wrapper {width: 40% !important ;} }  
     /* Hide arrows on very small screens */
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       .nav { width: 40px; height: 40px; font-size: 20px; }
       .close { top: 20px; right: 20px; font-size: 40px; }
+      .masked-text {font-size: 3.5rem !important;}
+      .logo {  width: 55% !important;  top: 346px !important;  right: 27% !important;}
+      .carousel-wrapper {width: 85% !important ;}
     }
+
+
+
+
+
 
     .center {
   margin: auto;
@@ -695,3 +701,4 @@ $.ajax('https://api.emailjs.com/api/v1.0/email/send', {
 
 </body>
 </html>
+

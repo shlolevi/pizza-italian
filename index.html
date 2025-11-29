@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>הפיצה האיטלקית בעבודת יד</title>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+
+           (function(){
+                emailjs.init({
+                  publicKey: "1rhqbZiw1p-exTeHR",
+                });
+            })();
+            
+</script>
 <style>
 body { margin: 0; font-family: 'Poppins', sans-serif; background: #fff7ef; color: #333; overflow-x: hidden; }
 
@@ -382,11 +392,11 @@ form button:hover { background: #32b329; transform: scale(1.05); }
 <section id="contactForm" class="animate">
     <h4>השאר לנו הודעה</h4>
     <form>
-        <input type="text" placeholder="השם שלך" required />
-        <input type="email" placeholder="אימייל" required />
-        <input type="tel" placeholder="טלפון" required />
-        <textarea placeholder="הודעה" rows="5" required></textarea>
-        <button type="submit">שלח</button>
+        <input id="name" type="text" placeholder="השם שלך" required />
+        <input id="email" type="email" placeholder="אימייל" required />
+        <input id="phone" type="tel" placeholder="טלפון" required />
+        <textarea id="message" placeholder="הודעה" rows="5" required></textarea>
+        <button type="submit" onclick="SendEmail()">שלח</button>
     </form>
 </section>
 </footer>
@@ -637,6 +647,33 @@ window.addEventListener('load', () => {
 //     // setupSlider();
 // });
 window.addEventListener('scroll', checkAnimations);
+
+// send email
+
+function SendEmail(){
+
+  var params = {
+    name:document.getElementById("name"),
+    name:document.getElementById("email"),
+    name:document.getElementById("phone"),
+    name:document.getElementById("message")
+  }
+
+  const serviceId = "service_4pa33yd";
+  const templateId = "template_lsasq9i";
+
+  emailjs.SendEmail(serviceId,templateId,params).
+  then(res => {
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("message").value = "";
+    
+    alert("your message send");
+  }).
+  catch(err=> console.log(err));
+
+}
 </script>
 
 </body>

@@ -9,7 +9,7 @@
 
            (function(){
                 emailjs.init({
-                  publicKey: "1rhqbZiw1p-exTeHR",
+                  publicKey: "1rhqbZiw1p-exTeHR", 
                 });
             })();
             
@@ -659,10 +659,15 @@ function SendEmail(){
     name:document.getElementById("message").value
   }
 
-  const serviceId = "service_4pa33yd";
-  const templateId = "template_lsasq9i";
+  var data = {
+    service_id: "service_4pa33yd",
+    template_id: "template_lsasq9i",
+    user_id: '1rhqbZiw1p-exTeHR',
+    template_params: params
+};
 
-  emailjs.send(serviceId,templateId,params).
+  emailjs.send(data).                     
+
   then(res => {
     document.getElementById("name").value = "";
     document.getElementById("email").value = "";

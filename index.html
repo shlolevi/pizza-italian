@@ -666,17 +666,28 @@ function SendEmail(){
     template_params: params
 };
 
-  emailjs.send(data).                     
 
-  then(res => {
-    document.getElementById("name").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("message").value = "";
+  // emailjs.send(data).                     
+  // then(res => {
+  //   document.getElementById("name").value = "";
+  //   document.getElementById("email").value = "";
+  //   document.getElementById("phone").value = "";
+  //   document.getElementById("message").value = "";
     
-    alert("your message send");
-  }).
-  catch(err=> console.log(err));
+  //   alert("your message send");
+  // }).
+  // catch(err=> console.log(err));
+
+   
+$.ajax('https://api.emailjs.com/api/v1.0/email/send', {
+    type: 'POST',
+    data: JSON.stringify(data),
+    contentType: 'application/json'
+}).done(function() {
+    alert('Your mail is sent!');
+}).fail(function(error) {
+    alert('Oops... ' + JSON.stringify(error));
+});
 
 }
 </script>

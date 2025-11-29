@@ -653,10 +653,10 @@ window.addEventListener('scroll', checkAnimations);
 function SendEmail(){
 
   var params = {
-    name:document.getElementById("name"),
-    name:document.getElementById("email"),
-    name:document.getElementById("phone"),
-    name:document.getElementById("message")
+    name:document.getElementById("name").value,
+    name:document.getElementById("email").value,
+    name:document.getElementById("phone").value,
+    name:document.getElementById("message").value
   }
 
   const serviceId = "service_4pa33yd";
